@@ -5,9 +5,9 @@ const app = express();
 const port = 8000;
 
 
-// Set up multer to handle file uploads
+
 //http://localhost:8000/UploadForm.html
-const upload = multer({ dest: 'uploads/' });
+const upload = multer();
 
 // Middleware to handle JSON and form data
 app.use(express.json());
@@ -92,7 +92,6 @@ const writeNotesToFile = (notes) => {
     const notesData = JSON.stringify(notes, null, 2);
     fs.writeFileSync('notes.json', notesData, 'utf-8');
   } catch (err) {
-    // Handle file write error, e.g., log the error or send an error response
     console.error('Error writing notes to file:', err);
   }
 };
@@ -120,12 +119,12 @@ app.get('/notes/:noteName', (req, res) => {
 app.put('/notes/:noteName', (req, res) => {
     const noteName = req.params.noteName;
     const updatedNoteText = req.body.noteText;
-    const notes = readNotesFromFile(); // Implement a function to read notes from the JSON file
+    const notes = readNotesFromFile(); 
     const noteIndex = notes.findIndex((n) => n.note_name === noteName);
   
     if (noteIndex !== -1) {
       notes[noteIndex].note = updatedNoteText;
-      writeNotesToFile(notes); // Implement a function to write notes back to the JSON file
+      writeNotesToFile(notes); 
       res.json({ message: 'Note updated successfully' });
     } else {
       res.status(404).json({ error: 'Note not found' });
