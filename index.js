@@ -21,7 +21,9 @@ app.get('/UploadForm.html', (req, res) => {
 
 // Define the route for uploading a note
 app.post('/upload', upload.fields([{ name: 'note_name' }, { name: 'note' }]), (req, res) => {
-  const { note_name, note } = req.body;
+  //const { note_name, note } = req.body;
+  const note_name = req.body.note_name;
+  const note = req.body.note;
 
   if (!note_name || !note) {
     res.status(400).json({ error: 'Missing note_name or note field' });
